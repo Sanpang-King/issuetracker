@@ -28,6 +28,9 @@ namespace WebApiBook.IssueTrackerApi.Models
                 foreach (var issue in Issues)
                 {
                     var item = new Item();
+                    item.Data.Add(new Data { Name = "Description", Value = issue.Description });
+                    item.Data.Add(new Data { Name = "Status", Value = issue.Status });
+                    item.Data.Add(new Data { Name = "Title", Value = issue.Title });
                     foreach (var link in issue.Links)
                     {
                         if (link.Rel == IssueLinkFactory.Rels.Self)
@@ -37,10 +40,7 @@ namespace WebApiBook.IssueTrackerApi.Models
                             item.Links.Add(new CJLink{Href = link.Href, Rel = link.Rel});
                         }
                     }
-                    collection.Items.Add(item);
-                    item.Data.Add(new Data {Name="Description", Value=issue.Description});
-                    item.Data.Add(new Data {Name = "Status", Value = issue.Status});
-                    item.Data.Add(new Data {Name="Title", Value = issue.Title});
+                    collection.Items.Add(item);                   
                 }
                 var query = new Query { Rel=IssueLinkFactory.Rels.SearchQuery, Href = new Uri("/issue", UriKind.Relative), Prompt="Issue search" };
                 query.Data.Add(new Data() { Name = "SearchText", Prompt = "Text to match against Title and Description" });

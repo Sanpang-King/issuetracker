@@ -61,18 +61,24 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
         public async Task<HttpResponseMessage> Patch(string id, dynamic issueUpdate)
         {
-            var issue = await _store.FindAsync(id);
-            if (issue == null)
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-
-            foreach (JProperty prop in issueUpdate)
+            try
             {
-                if (prop.Name == "title")
-                    issue.Title = prop.Value.ToObject<string>();
-                else if (prop.Name == "description")
-                    issue.Description = prop.Value.ToObject<string>();
+                var issue = new Issue();
+                var oldIssue = await _store.FindAsync(id);
+
+                foreach (JProperty prop in issueUpdate)
+                {
+                    if (prop.Name == "title")
+                        issue.Title = prop.Value.ToObject<string>();
+                    else if (prop.Name == "description")
+                        issue.Description = prop.Value.ToObject<string>();
+                }
+                await _store.UpdateAsync(issue);
             }
-            await _store.UpdateAsync(issue);
+            catch (InvalidOperationException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
       

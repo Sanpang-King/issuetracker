@@ -190,7 +190,9 @@ namespace WebApiBook.IssueTrackerApp.AcceptanceTests.Features
         public void SearchingIssues(IssuesState issuesState)
         {
             "Given existing issues".
-                f(() => MockIssueStore.Setup(i => i.FindAsyncQuery("another")).Returns(Task.FromResult(FakeIssues.Where(i => i.Id == "2"))));
+                f(() => 
+                    MockIssueStore.Setup(i => i.FindAsyncQuery("another")).Returns(Task.FromResult(FakeIssues.Where(i => i.Id == "2")))
+                );
             "When issues are searched".
                 f(() =>
                 {

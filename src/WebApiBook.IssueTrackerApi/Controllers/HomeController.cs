@@ -39,7 +39,7 @@ namespace WebApiBook.IssueTrackerApi.Controllers
 
 
 
-            home.AddResource((Link) issueLink);
+            home.AddResource(issueLink);
 
             var issuesLink = new Link()
             {

@@ -14,7 +14,7 @@ namespace WebApiBook.IssueTrackerApi.Infrastructure
  
         public IssueState Create(Issue issue)
         {
-            var model = new IssueState
+            var model = new IssueState()
                 {
                     Id = issue.Id,
                     Title = issue.Title,
